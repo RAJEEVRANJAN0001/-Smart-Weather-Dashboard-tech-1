@@ -2,7 +2,7 @@
 
 A modern, professional weather dashboard that provides accurate, real-time weather data using WeatherAPI.com. Features a beautiful glassmorphism design with detailed forecasts, analytics, and astronomy data.
 
-![Smart Weather Dashboard](screenshots/dashboard.png)
+
 
 ## ✨ Features
 
@@ -116,19 +116,6 @@ npm start
 # App opens at http://localhost:3000
 ```
 
-## 🎨 Screenshots
-
-### Landing Page
-![Landing Page](screenshots/landing.png)
-*Location permission with search functionality*
-
-### Dashboard View
-![Dashboard](screenshots/dashboard.png)
-*Complete weather overview with hourly forecast*
-
-### Analytics
-![Analytics](screenshots/analytics.png)
-*Detailed weather metrics and conditions*
 
 ## 📁 Project Structure
 
