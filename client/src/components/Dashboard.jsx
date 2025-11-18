@@ -50,6 +50,12 @@ function Dashboard({ location, onBack }) {
   }, [weatherData]);
 
   const fetchWeatherData = async (loc = location) => {
+    if (!loc) {
+      setError('No location provided');
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError('');
     
@@ -58,14 +64,27 @@ function Dashboard({ location, onBack }) {
         ? { lat: loc.lat, lon: loc.lon, days: 10 }
         : { q: loc.name, days: 10 };
 
-      const response = await axios.get(`${API_BASE_URL}/weather/complete`, { params });
+      console.log('Fetching weather with params:', params);
+      const response = await axios.get(`${API_BASE_URL}/complete`, { 
+        params,
+        timeout: 15000 // 15 second timeout
+      });
+      
+      console.log('Weather response:', response.data);
       
       if (response.data.success) {
         setWeatherData(response.data.data);
+        setError(''); // Clear any previous errors
+      } else {
+        setError(response.data.message || 'Failed to fetch weather data');
       }
     } catch (err) {
       console.error('Error fetching weather:', err);
-      setError(err.response?.data?.message || 'Failed to fetch weather data. Please try again.');
+      const errorMessage = err.response?.data?.message 
+        || err.message 
+        || 'Failed to fetch weather data. Please try again.';
+      setError(errorMessage);
+      setWeatherData(null); // Clear data on error
     } finally {
       setLoading(false);
     }
@@ -98,7 +117,7 @@ function Dashboard({ location, onBack }) {
 
   const handleCitySearch = async (query) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/weather/search`, {
+      const response = await axios.get(`${API_BASE_URL}/search`, {
         params: { q: query }
       });
       
@@ -138,7 +157,28 @@ function Dashboard({ location, onBack }) {
   }
 
   if (!weatherData) {
-    return null;
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <ErrorMessage 
+          message="No weather data available. Please try again." 
+          onRetry={() => fetchWeatherData()} 
+          onBack={onBack} 
+        />
+      </div>
+    );
+  }
+
+  // Validate weather data structure
+  if (!weatherData.location || !weatherData.current || !weatherData.forecast || !weatherData.astronomy) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <ErrorMessage 
+          message="Invalid weather data received. Please try again." 
+          onRetry={() => fetchWeatherData()} 
+          onBack={onBack} 
+        />
+      </div>
+    );
   }
 
   return (

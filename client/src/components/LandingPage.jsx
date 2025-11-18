@@ -50,7 +50,7 @@ function LandingPage({ onLocationSelect }) {
     setIsSearching(true);
     setError(''); // Clear any previous errors
     try {
-      const response = await axios.get(`${API_BASE_URL}/weather/search`, {
+      const response = await axios.get(`${API_BASE_URL}/search`, {
         params: { q: query }
       });
       
