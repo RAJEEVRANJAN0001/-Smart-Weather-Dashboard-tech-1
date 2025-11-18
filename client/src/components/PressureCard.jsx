@@ -7,15 +7,15 @@ function PressureCard({ pressure, trend }) {
   const percentage = ((pressure - minPressure) / (maxPressure - minPressure)) * 100;
 
   return (
-    <div className="glass-card p-4">
-      <div className="flex items-center gap-2 mb-3">
-        <Gauge className="w-3 h-3 text-gray-400" />
-        <h3 className="text-gray-400 text-xs font-medium">PRESSURE</h3>
+    <div className="glass-card p-3 sm:p-4">
+      <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+        <Gauge className="w-3 h-3 text-gray-400 flex-shrink-0" />
+        <h3 className="text-gray-400 text-[10px] sm:text-xs font-medium truncate">PRESSURE</h3>
       </div>
 
-      <div className="flex items-center justify-center mb-2">
+      <div className="flex items-center justify-center mb-1.5 sm:mb-2">
         {/* Pressure Gauge */}
-        <div className="relative w-24 h-24">
+        <div className="relative w-20 h-20 sm:w-24 sm:h-24">
           <svg className="w-full h-full transform -rotate-90">
             {/* Background arc */}
             <circle
@@ -42,8 +42,8 @@ function PressureCard({ pressure, trend }) {
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">{pressure}</div>
-              <div className="text-xs text-gray-400">hPa</div>
+              <div className="text-xl sm:text-2xl font-bold text-white">{pressure}</div>
+              <div className="text-[10px] sm:text-xs text-gray-400">hPa</div>
             </div>
           </div>
           
@@ -61,11 +61,11 @@ function PressureCard({ pressure, trend }) {
       </div>
 
       <div className="text-center">
-        <div className="text-xs text-gray-400">
+        <div className="text-[10px] sm:text-xs text-gray-400">
           {trend === 'rising' && '↗ Rising'}
           {trend === 'falling' && '↘ Falling'}
           {trend === 'steady' && '→ Steady'}
-          {!trend && 'Low High'}
+          {!trend && 'Steady'}
         </div>
       </div>
     </div>

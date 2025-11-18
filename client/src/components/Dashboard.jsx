@@ -182,14 +182,16 @@ function Dashboard({ location, onBack }) {
   }
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left Sidebar */}
-      <WeatherSidebar 
-        cities={cities}
-        selectedCity={selectedCity}
-        onCitySelect={handleCitySelect}
-        onSearch={handleCitySearch}
-      />
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      {/* Left Sidebar - Hidden on mobile, shown on desktop */}
+      <div className="hidden lg:block">
+        <WeatherSidebar 
+          cities={cities}
+          selectedCity={selectedCity}
+          onCitySelect={handleCitySelect}
+          onSearch={handleCitySearch}
+        />
+      </div>
 
       {/* Main Content */}
       <div className="flex-1 overflow-y-auto">
@@ -209,28 +211,35 @@ function Dashboard({ location, onBack }) {
           ))}
         </div>
 
-        <div className="relative z-10 p-6">
+        <div className="relative z-10 p-4 sm:p-6 lg:p-8">
           {/* Header with city name and temperature */}
-          <div className="mb-6">
-            <h1 className="text-4xl font-light text-white mb-1">
-              {weatherData.location.name}
-            </h1>
-            <div className="flex items-center gap-2 text-gray-400 text-sm">
-              <span>{Math.round(weatherData.current.temp_c)}°</span>
+          <div className="mb-4 sm:mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white">
+                {weatherData.location.name}
+              </h1>
+              <button 
+                onClick={onBack}
+                className="lg:hidden px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm transition-colors"
+              >
+                Change Location
+              </button>
+            </div>
+            <div className="flex items-center gap-2 text-gray-400 text-sm sm:text-base">
+              <span className="text-lg sm:text-xl">{Math.round(weatherData.current.temp_c)}°</span>
               <span>|</span>
               <span>{weatherData.current.condition.text}</span>
             </div>
           </div>
 
-          {/* Main 2-column grid layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-[1800px] mx-auto">
+          {/* Main responsive grid layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 max-w-[1800px] mx-auto">
             {/* Left Column: 10-Day Forecast + Moon Phase */}
-            <div className="lg:col-span-1 space-y-4">
+            <div className="lg:col-span-1 space-y-3 sm:space-y-4">
               <ForecastTable 
                 forecastDays={weatherData.forecast.forecastday}
               />
               
-              {/* Waning Crescent Card below forecast */}
               <MoonPhaseCard 
                 phase={weatherData.astronomy.astro.moon_phase}
                 moonrise={weatherData.astronomy.astro.moonrise}
@@ -239,31 +248,29 @@ function Dashboard({ location, onBack }) {
             </div>
 
             {/* Right Column: All Cards Grid */}
-            <div className="lg:col-span-2 space-y-4">
+            <div className="lg:col-span-2 space-y-3 sm:space-y-4">
               {/* Air Quality */}
               <AirQualityCard 
                 aqi={131}
                 description={`Air quality index is 131, which is similar to yesterday at about this time.`}
               />
 
-              {/* 2 Column Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                {/* Wind Card */}
+              {/* 2 Column Grid - Responsive */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <WindCard 
                   speed={Math.round(weatherData.current.wind_kph)}
                   direction={weatherData.current.wind_degree}
                   gusts={Math.round(weatherData.current.gust_kph)}
                 />
                 
-                {/* Precipitation (No Map) */}
                 <PrecipitationSimpleCard 
                   amount={weatherData.forecast.forecastday[0].day.totalprecip_mm}
                   forecast="None expected in next 10 days."
                 />
               </div>
 
-              {/* 4x2 Grid for smaller cards */}
-              <div className="grid grid-cols-4 gap-4">
+              {/* Responsive Grid for smaller cards - 2 cols on mobile, 4 on desktop */}
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <UVIndexCard 
                   uvIndex={weatherData.current.uv}
                   uvDescription="Low for the rest of the day."
@@ -300,8 +307,6 @@ function Dashboard({ location, onBack }) {
                   avgHigh={Math.round(weatherData.forecast.forecastday[0].day.maxtemp_c)}
                   avgLow={Math.round(weatherData.forecast.forecastday[0].day.mintemp_c)}
                 />
-                {/* Empty space for balance */}
-                <div></div>
               </div>
             </div>
           </div>

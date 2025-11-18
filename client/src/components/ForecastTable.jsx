@@ -36,22 +36,22 @@ function ForecastTable({ forecastDays }) {
   const overallMax = Math.max(...forecastDays.map(day => day.day.maxtemp_c));
 
   return (
-    <div className="glass-card p-5 animate-slide-up" style={{ animationDelay: '0.2s' }}>
+    <div className="glass-card p-3 sm:p-5 animate-slide-up" style={{ animationDelay: '0.2s' }}>
       <div className="flex items-center gap-2 mb-3">
         <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
-        <h3 className="text-gray-400 text-sm font-medium">10-DAY FORECAST</h3>
+        <h3 className="text-gray-400 text-xs sm:text-sm font-medium">10-DAY FORECAST</h3>
       </div>
 
-      <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 pr-2 space-y-2">
+      <div className="max-h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 pr-1 sm:pr-2 space-y-2">
         {forecastDays.map((day, index) => (
           <div 
             key={index}
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-700/20 transition-all"
+            className="flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-lg hover:bg-slate-700/20 transition-all"
           >
             {/* Day name */}
-            <div className="w-14 text-xs font-medium">
+            <div className="w-12 sm:w-14 text-xs font-medium text-white">
               {getDayName(day.date)}
             </div>
 
@@ -59,12 +59,12 @@ function ForecastTable({ forecastDays }) {
             <img 
               src={`https:${day.day.condition.icon}`}
               alt={day.day.condition.text}
-              className="w-8 h-8"
+              className="w-7 h-7 sm:w-8 sm:h-8 flex-shrink-0"
             />
 
             {/* Temperature bar */}
-            <div className="flex items-center gap-2 flex-1">
-              <span className="text-xs text-slate-400 w-7 text-right">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+              <span className="text-xs text-slate-400 w-6 sm:w-7 text-right flex-shrink-0">
                 {Math.round(day.day.mintemp_c)}°
               </span>
               <div className="flex-1 h-1.5 bg-slate-700/30 rounded-full relative min-w-0">
@@ -81,7 +81,7 @@ function ForecastTable({ forecastDays }) {
                   }}
                 />
               </div>
-              <span className="text-xs font-medium w-7">
+              <span className="text-xs font-medium w-6 sm:w-7 text-white flex-shrink-0">
                 {Math.round(day.day.maxtemp_c)}°
               </span>
             </div>

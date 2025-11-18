@@ -14,15 +14,15 @@ function UVIndexCard({ uvIndex, uvDescription }) {
   const percentage = (uvIndex / 11) * 100;
 
   return (
-    <div className="glass-card p-4">
-      <div className="flex items-center gap-2 mb-3">
-        <Sun className="w-3 h-3 text-gray-400" />
-        <h3 className="text-gray-400 text-xs font-medium">UV INDEX</h3>
+    <div className="glass-card p-3 sm:p-4">
+      <div className="flex items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+        <Sun className="w-3 h-3 text-gray-400 flex-shrink-0" />
+        <h3 className="text-gray-400 text-[10px] sm:text-xs font-medium truncate">UV INDEX</h3>
       </div>
 
-      <div className="flex items-center justify-center mb-3">
+      <div className="flex items-center justify-center mb-2 sm:mb-3">
         {/* UV Gauge - smaller */}
-        <div className="relative w-20 h-20">
+        <div className="relative w-16 h-16 sm:w-20 sm:h-20">
           <svg className="w-full h-full transform -rotate-90">
             {/* Background circle */}
             <circle
@@ -49,15 +49,15 @@ function UVIndexCard({ uvIndex, uvDescription }) {
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <div className="text-2xl font-bold text-white">{uvIndex}</div>
-              <div className={`text-[10px] font-medium ${uvData.color}`}>{uvData.level}</div>
+              <div className="text-xl sm:text-2xl font-bold text-white">{uvIndex}</div>
+              <div className={`text-[9px] sm:text-[10px] font-medium ${uvData.color}`}>{uvData.level}</div>
             </div>
           </div>
         </div>
       </div>
 
-      <p className="text-gray-400 text-xs text-center leading-tight">
-        {uvDescription || `${uvData.level} for the rest of the day.`}
+      <p className="text-gray-400 text-[10px] sm:text-xs text-center leading-tight">
+        {uvDescription || `${uvData.level} UV today.`}
       </p>
     </div>
   );
