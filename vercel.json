@@ -8,16 +8,9 @@
         "distDir": "build"
       }
     },
-    {
-      "src": "server/server.js",
-      "use": "@vercel/node"
-    }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/server/server.js"
-    },
+    
     {
       "src": "/static/(.*)",
       "dest": "/client/build/static/$1"
