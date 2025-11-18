@@ -3,7 +3,6 @@ import { TrendingUp } from 'lucide-react';
 
 function AveragesCard({ currentHigh, currentLow, avgHigh, avgLow }) {
   const highDiff = currentHigh - avgHigh;
-  const lowDiff = currentLow - avgLow;
 
   return (
     <div className="glass-card p-4">
