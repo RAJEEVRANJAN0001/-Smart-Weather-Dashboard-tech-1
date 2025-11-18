@@ -1,4 +1,11 @@
-# Vercel Deployment Setup
+# Vercel Deployment Setup - FIXED
+
+## What Was Fixed
+
+✅ **API URL Configuration** - Changed from `http://localhost:5000/api` to `/api` (relative path)
+✅ **CORS Headers** - Added to serverless API for cross-origin requests
+✅ **Error Handling** - Improved error messages and logging
+✅ **Proxy Setup** - Added proxy in `client/package.json` for local development
 
 ## Required Environment Variables
 

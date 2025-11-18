@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// Use relative path for API calls (works in both dev and production)
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 function LandingPage({ onLocationSelect }) {
   const [searchQuery, setSearchQuery] = useState('');

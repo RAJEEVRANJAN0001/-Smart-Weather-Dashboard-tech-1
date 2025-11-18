@@ -16,7 +16,8 @@ import AveragesCard from './AveragesCard';
 import Loader from './Loader';
 import ErrorMessage from './ErrorMessage';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// Use relative path for API calls (works in both dev and production)
+const API_BASE_URL = process.env.REACT_APP_API_URL || '/api';
 
 function Dashboard({ location, onBack }) {
   const [weatherData, setWeatherData] = useState(null);

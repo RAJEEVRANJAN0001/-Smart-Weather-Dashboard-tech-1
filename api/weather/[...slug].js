@@ -48,6 +48,10 @@ module.exports = async (req, res) => {
       }
 
       case 'search': {
+        console.log('Search endpoint called with query:', q);
+        console.log('ENV check - WEATHER_API_KEY exists:', !!process.env.WEATHER_API_KEY);
+        console.log('ENV check - WEATHER_API_BASE_URL:', process.env.WEATHER_API_BASE_URL);
+        
         if (!q || q.trim().length < 2) {
           return res.status(400).json({ success: false, message: 'Query must be at least 2 characters' });
         }
@@ -64,6 +68,12 @@ module.exports = async (req, res) => {
     }
   } catch (error) {
     console.error('Serverless weather API error:', error?.message || error);
-    return res.status(500).json({ success: false, message: error?.message || 'Internal Server Error' });
+    console.error('Error stack:', error?.stack);
+    console.error('Error response:', error?.response?.data);
+    return res.status(500).json({ 
+      success: false, 
+      message: error?.message || 'Internal Server Error',
+      details: process.env.NODE_ENV === 'development' ? error?.stack : undefined
+    });
   }
 };
