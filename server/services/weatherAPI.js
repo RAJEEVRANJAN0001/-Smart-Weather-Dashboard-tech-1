@@ -1,28 +1,37 @@
 const axios = require('axios');
 
+// Get API key - check both possible env var names
 const API_KEY = process.env.WEATHER_API_KEY;
 const BASE_URL = process.env.WEATHER_API_BASE_URL || 'https://api.weatherapi.com/v1';
 
 if (!API_KEY) {
-  console.warn('⚠️  WEATHER_API_KEY is not set in environment variables');
+  console.error('⚠️  WEATHER_API_KEY is not set in environment variables');
+  console.error('Available env vars:', Object.keys(process.env).filter(k => k.includes('WEATHER')));
 }
 
 /**
  * Create axios instance with base configuration
  */
-const weatherClient = axios.create({
-  baseURL: BASE_URL,
-  timeout: 10000,
-  params: {
-    key: API_KEY
+const getWeatherClient = () => {
+  if (!API_KEY) {
+    throw new Error('WEATHER_API_KEY environment variable is not set. Please configure it in Vercel project settings.');
   }
-});
+  
+  return axios.create({
+    baseURL: BASE_URL,
+    timeout: 10000,
+    params: {
+      key: API_KEY
+    }
+  });
+};
 
 /**
  * Get current weather data
  */
 exports.getCurrentWeather = async (location) => {
   try {
+    const weatherClient = getWeatherClient();
     const response = await weatherClient.get('/current.json', {
       params: {
         q: location,
@@ -41,6 +50,7 @@ exports.getCurrentWeather = async (location) => {
  */
 exports.getForecast = async (location, days = 10) => {
   try {
+    const weatherClient = getWeatherClient();
     const response = await weatherClient.get('/forecast.json', {
       params: {
         q: location,
@@ -61,6 +71,7 @@ exports.getForecast = async (location, days = 10) => {
  */
 exports.getAstronomy = async (location, date) => {
   try {
+    const weatherClient = getWeatherClient();
     const response = await weatherClient.get('/astronomy.json', {
       params: {
         q: location,
@@ -79,6 +90,7 @@ exports.getAstronomy = async (location, date) => {
  */
 exports.getCompleteWeatherData = async (location, days = 10) => {
   try {
+    const weatherClient = getWeatherClient();
     // Use forecast endpoint which includes current weather
     const [forecast, astronomy] = await Promise.all([
       weatherClient.get('/forecast.json', {
@@ -114,6 +126,7 @@ exports.getCompleteWeatherData = async (location, days = 10) => {
  */
 exports.searchLocations = async (query) => {
   try {
+    const weatherClient = getWeatherClient();
     const response = await weatherClient.get('/search.json', {
       params: {
         q: query

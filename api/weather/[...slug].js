@@ -3,6 +3,16 @@ const weatherAPI = require('../../server/services/weatherAPI');
 // Vercel dynamic API: captures paths like /api/weather/current, /api/weather/forecast, etc.
 module.exports = async (req, res) => {
   try {
+    // Enable CORS
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
+
     const slug = req.query.slug || [];
     const parts = Array.isArray(slug) ? slug : [slug];
     const endpoint = parts[0] || '';
